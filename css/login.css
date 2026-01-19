@@ -1,0 +1,106 @@
+/* RESET BÁSICO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* FUNDO DA TELA */
+body {
+  background: linear-gradient(180deg, #2563EB, #1E40AF);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CONTAINER PRINCIPAL */
+.login-container {
+  width: 100%;
+  padding: 20px;
+}
+
+/* CARD DE LOGIN */
+.login-card {
+  max-width: 380px;
+  margin: 0 auto;
+  background: #3B82F6;
+  border-radius: 20px;
+  padding: 30px 25px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* LOGO */
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.logo img {
+  width: 200px;
+}
+
+/* FORMULÁRIO */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* GRUPO DE INPUT */
+.input-group {
+  margin-bottom: 22px;
+}
+
+.input-group label {
+  color: #FFFFFF;
+  font-size: 18px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 5px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #FFFFFF;
+  color: #FFFFFF;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-group input::placeholder {
+  color: #DBEAFE;
+}
+
+/* BOTÃO */
+button {
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #1E40AF;
+  color: #FFFFFF;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #1E3A8A;
+}
+
+/* LINK RECUPERAR SENHA */
+.forgot-password {
+  text-align: center;
+  margin-top: 15px;
+  color: #E0E7FF;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}

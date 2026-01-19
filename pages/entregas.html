@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entregas</title>
+
+  <link rel="stylesheet" href="../css/entregas.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="top-bar">
+    <button class="menu-btn">☰</button>
+    <h1>ENTREGAS</h1>
+  </header>
+
+  <main class="app-container">
+
+    <!-- FILTRO DE LOJAS -->
+    <div class="filtros-loja">
+      <button class="ativo" onclick="selecionarLoja('Centro', this)">Loja Centro</button>
+      <button onclick="selecionarLoja('Jardins', this)">Loja Jardins</button>
+      <button onclick="selecionarLoja('Siqueira', this)">Siqueira Campos</button>
+      <button onclick="selecionarLoja('São José', this)">São José</button>
+    </div>
+
+    <!-- TOGGLE -->
+    <section class="toggle">
+  <button class="toggle-btn ativo" onclick="mostrarPendentes()">
+    📦 Entregas <span class="badge" id="contadorEntregas">0</span>
+  </button>
+
+  <button class="toggle-btn" onclick="mostrarEntregues()">
+    ✅ Entregues <span class="badge" id="contadorEntregues">0</span>
+  </button>
+
+  <button id="btn-canceladas" class="toggle-btn" onclick="mostrarCanceladas()">
+  Canceladas (<span id="contadorCanceladas">0</span>)
+</button>
+
+</section>
+
+<main class="lista-entregas" id="lista-entregas"></main>
+
+
+    <!-- LISTA DE ENTREGAS (ESTAVA FALTANDO) -->
+    <section class="lista-entregas" id="lista-entregas"></section>
+
+  </main>
+
+  <!-- BOTÃO NOVA ENTREGA -->
+  <button class="btn-nova" onclick="irParaNovaEntrega()">
+    + Nova Entrega
+  </button>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/entregas.js"></script>
+
+</body>
+</html>

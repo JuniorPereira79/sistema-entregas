@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Entrega</title>
+  <link rel="stylesheet" href="../css/nova-entrega.css">
+</head>
+<body>
+
+<h1>ENTREGAS</h1>
+
+<div class="card">
+
+  <form id="formEntrega">
+
+    <!-- Loja -->
+    <div class="campo">
+      <label>🏬 Loja de Saída</label>
+      <select id="loja">
+        <option value="">Selecione a loja de onde sairá a entrega</option>
+        <option value="Centro">Loja Centro</option>
+        <option value="Jardins">Loja Jardins</option>
+        <option value="Siqueira">Siqueira Campos</option>
+        <option value="São José">São José</option>
+      </select>
+    </div>
+
+    <!-- Vendedor -->
+    <div class="campo">
+      <label>👤 Vendedor</label>
+      <input id="vendedor" type="text" placeholder="Selecione o vendedor">
+    </div>
+
+    <!-- Destino -->
+    <div class="campo">
+      <label>📍 Destino da Entrega</label>
+      <input id="destino" type="text" placeholder="Nome do cliente ou endereço completo">
+    </div>
+
+
+
+
+    <!-- Forma de Pagamento -->
+<div class="campo">
+  <label>💳 Pagamento</label>
+  <select id="formaPagamento" required>
+    <option value="">Selecione a forma de pagamento</option>
+    <option value="PIX">PIX</option>
+    <option value="Crédito">Crédito</option>
+    <option value="Débito">Débito</option>
+    <option value="Dinheiro">Dinheiro</option>
+  </select>
+</div>
+
+<!-- Status do Pagamento -->
+<div class="campo">
+  <label>📌 Status do Pagamento</label>
+  <div class="toggle">
+    <button type="button" class="ativo" id="btnPago">✔ Pago</button>
+    <button type="button" id="btnReceber">⏱ A receber</button>
+  </div>
+  <input type="hidden" id="pagamento" value="Pago">
+</div>
+
+    <!-- Pagamento -->
+   
+
+    <!-- Observação -->
+    <div class="campo">
+      <label>📝 Observação (opcional)</label>
+      <textarea id="obs" placeholder="Ex: Casa azul, chamar no WhatsApp"></textarea>
+    </div>
+
+    <!-- Botões -->
+    <button type="submit" class="btn-salvar">+ Registrar Entrega</button>
+    <button type="button" class="btn-cancelar" onclick="history.back()">Cancelar</button>
+
+  </form>
+</div>
+
+<script src="../js/nova-entrega.js"></script>
+</body>
+</html>
