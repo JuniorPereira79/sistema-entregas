@@ -44,7 +44,7 @@ body {
 .atalhos {
   display: grid;
   gap: 8px;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   margin-bottom: 16px;
 }
 

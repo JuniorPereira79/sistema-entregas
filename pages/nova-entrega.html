@@ -49,6 +49,16 @@
     </div>
 
     <div class="campo">
+      <label>📌 Localização da entrega</label>
+      <div class="coordenadas-grid">
+        <input id="latitude" type="number" step="any" placeholder="Latitude">
+        <input id="longitude" type="number" step="any" placeholder="Longitude">
+      </div>
+      <button type="button" class="btn-localizacao" id="btnLocalizacaoAtual">Usar minha localização atual</button>
+      <p class="mensagem-localizacao" id="mensagemLocalizacao"></p>
+    </div>
+
+    <div class="campo">
       <label>🏍 Entregador</label>
       <select id="entregador">
         <option value="">Selecione um entregador ativo</option>

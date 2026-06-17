@@ -1,0 +1,142 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f2f2f2;
+  padding-bottom: 32px;
+}
+
+.top-bar {
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  position: relative;
+}
+
+.top-bar h1 {
+  font-size: 22px;
+}
+
+.nav-btn,
+.logout-btn {
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.top-bar .nav-btn,
+.logout-btn {
+  position: absolute;
+}
+
+.nav-btn {
+  background: #3b82f6;
+}
+
+.top-bar .nav-btn.esquerda {
+  left: 16px;
+}
+
+.logout-btn {
+  background: #ef4444;
+  right: 16px;
+}
+
+.app-container {
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 16px;
+}
+
+.mapa-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  padding: 16px;
+}
+
+.mapa-header {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mapa-header h2 {
+  font-size: 20px;
+}
+
+.mapa-header p {
+  color: #555;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+#mapa {
+  border-radius: 10px;
+  height: 70vh;
+  min-height: 420px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.mensagem-vazia {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  color: #64748b;
+  display: none;
+  margin-bottom: 12px;
+  padding: 14px;
+  text-align: center;
+}
+
+.mensagem-vazia.ativo {
+  display: block;
+}
+
+.popup-mapa strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.popup-mapa p {
+  margin-bottom: 4px;
+}
+
+@media (max-width: 640px) {
+  .top-bar {
+    height: auto;
+    padding: 12px 8px 56px;
+  }
+
+  .top-bar h1 {
+    font-size: 18px;
+  }
+
+  .top-bar .nav-btn,
+  .logout-btn {
+    bottom: 12px;
+    padding: 7px 9px;
+  }
+
+  .mapa-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  #mapa {
+    height: 64vh;
+    min-height: 360px;
+  }
+}

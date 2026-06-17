@@ -84,7 +84,8 @@ body {
 }
 
 .btn-limpar,
-.btn-exportar {
+.btn-exportar,
+.btn-pdf {
   align-self: end;
   border: none;
   border-radius: 8px;
@@ -99,6 +100,10 @@ body {
 
 .btn-exportar {
   background: #16a34a;
+}
+
+.btn-pdf {
+  background: #dc2626;
 }
 
 .indicadores {

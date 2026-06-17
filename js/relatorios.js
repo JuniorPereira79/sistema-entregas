@@ -6,7 +6,8 @@ function carregarLista(chave) {
   const dados = localStorage.getItem(chave);
 
   try {
-    return dados ? JSON.parse(dados) : [];
+    const lista = dados ? JSON.parse(dados) : [];
+    return Array.isArray(lista) ? lista : [];
   } catch {
     localStorage.removeItem(chave);
     return [];
@@ -141,10 +142,17 @@ function dataDentroDoPeriodo(data, dataInicial, dataFinal) {
 
 function aplicarFiltros() {
   const filtros = obterFiltros();
+  const entregadorSelecionado = entregadores.find(entregador => String(entregador.id) === filtros.entregador);
 
   entregasFiltradas = entregas.filter(entrega => {
     if (filtros.status !== "todos" && entrega.status !== filtros.status) return false;
-    if (filtros.entregador !== "todos" && String(entrega.entregadorId) !== filtros.entregador) return false;
+    if (
+      filtros.entregador !== "todos" &&
+      String(entrega.entregadorId) !== filtros.entregador &&
+      entrega.entregadorNome !== entregadorSelecionado?.nome
+    ) {
+      return false;
+    }
 
     return dataDentroDoPeriodo(entrega.dataCriacao, filtros.dataInicial, filtros.dataFinal);
   });
@@ -239,6 +247,113 @@ function exportarCsv() {
   URL.revokeObjectURL(url);
 }
 
+function obterResumoFiltrado() {
+  return {
+    total: entregasFiltradas.length,
+    pendentes: entregasFiltradas.filter(e => e.status === "pendente").length,
+    emRota: entregasFiltradas.filter(e => e.status === "em-rota").length,
+    entregues: entregasFiltradas.filter(e => e.status === "entregue").length,
+    canceladas: entregasFiltradas.filter(e => e.status === "cancelada").length
+  };
+}
+
+function obterDescricaoFiltros() {
+  const filtros = obterFiltros();
+  const entregadorSelecionado = entregadores.find(entregador => String(entregador.id) === filtros.entregador);
+
+  return [
+    `Data inicial: ${filtros.dataInicial || "Todas"}`,
+    `Data final: ${filtros.dataFinal || "Todas"}`,
+    `Status: ${filtros.status === "todos" ? "Todos" : nomeStatus(filtros.status)}`,
+    `Entregador: ${entregadorSelecionado?.nome || "Todos"}`
+  ];
+}
+
+function exportarPdf() {
+  if (entregasFiltradas.length === 0) {
+    alert("Nenhuma entrega encontrada para exportar em PDF.");
+    return;
+  }
+
+  const jsPDF = window.jspdf?.jsPDF;
+
+  if (!jsPDF) {
+    alert("Não foi possível carregar a biblioteca de PDF. Verifique sua conexão e tente novamente.");
+    return;
+  }
+
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "mm",
+    format: "a4"
+  });
+
+  const resumo = obterResumoFiltrado();
+  const dataGeracao = new Date().toLocaleString("pt-BR");
+  const linhasTabela = entregasFiltradas.map(entrega => [
+    String(entrega.codigo || "-"),
+    entrega.cliente || "-",
+    entrega.endereco || "-",
+    entrega.telefone || "-",
+    entrega.entregadorNome || "Não atribuído",
+    nomeStatus(entrega.status),
+    entrega.dataCriacaoTexto || "-",
+    entrega.dataConclusaoTexto || "-"
+  ]);
+
+  doc.setFontSize(18);
+  doc.text("Relatório de Entregas", 14, 16);
+
+  doc.setFontSize(10);
+  doc.text(`Gerado em: ${dataGeracao}`, 14, 24);
+
+  obterDescricaoFiltros().forEach((linha, index) => {
+    doc.text(linha, 14, 32 + index * 6);
+  });
+
+  doc.setFontSize(11);
+  doc.text(
+    `Total: ${resumo.total} | Pendentes: ${resumo.pendentes} | Em rota: ${resumo.emRota} | Entregues: ${resumo.entregues} | Canceladas: ${resumo.canceladas}`,
+    14,
+    60
+  );
+
+  doc.autoTable({
+    startY: 68,
+    head: [[
+      "Código",
+      "Cliente",
+      "Endereço",
+      "Telefone",
+      "Entregador",
+      "Status",
+      "Data de criação",
+      "Data de conclusão"
+    ]],
+    body: linhasTabela,
+    styles: {
+      fontSize: 8,
+      cellPadding: 2
+    },
+    headStyles: {
+      fillColor: [37, 99, 235],
+      textColor: 255
+    },
+    columnStyles: {
+      0: { cellWidth: 24 },
+      1: { cellWidth: 34 },
+      2: { cellWidth: 55 },
+      3: { cellWidth: 28 },
+      4: { cellWidth: 34 },
+      5: { cellWidth: 26 },
+      6: { cellWidth: 28 },
+      7: { cellWidth: 34 }
+    }
+  });
+
+  doc.save(`relatorio-entregas-${new Date().toISOString().slice(0, 10)}.pdf`);
+}
+
 function iniciarRelatorios() {
   entregas = carregarLista("entregas").map(normalizarEntrega);
   entregadores = carregarLista("entregadores");
@@ -252,6 +367,7 @@ function iniciarRelatorios() {
 
   document.getElementById("btnLimparFiltros").addEventListener("click", limparFiltros);
   document.getElementById("btnExportarCsv").addEventListener("click", exportarCsv);
+  document.getElementById("btnExportarPdf").addEventListener("click", exportarPdf);
 }
 
 document.addEventListener("DOMContentLoaded", iniciarRelatorios);

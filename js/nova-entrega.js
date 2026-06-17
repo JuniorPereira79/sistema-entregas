@@ -51,6 +51,59 @@ function carregarEntregadoresAtivos() {
   });
 }
 
+function obterCoordenada(id) {
+  const valor = document.getElementById(id).value.trim().replace(",", ".");
+  if (!valor) return null;
+
+  const numero = Number(valor);
+  return Number.isFinite(numero) ? numero : NaN;
+}
+
+function coordenadasPreenchidas(latitude, longitude) {
+  return latitude !== null || longitude !== null;
+}
+
+function coordenadasValidas(latitude, longitude) {
+  return (
+    Number.isFinite(latitude) &&
+    Number.isFinite(longitude) &&
+    latitude >= -90 &&
+    latitude <= 90 &&
+    longitude >= -180 &&
+    longitude <= 180
+  );
+}
+
+function atualizarMensagemLocalizacao(mensagem) {
+  const elemento = document.getElementById("mensagemLocalizacao");
+  if (elemento) elemento.textContent = mensagem;
+}
+
+function usarLocalizacaoAtual() {
+  if (!navigator.geolocation) {
+    atualizarMensagemLocalizacao("Seu navegador não oferece suporte à localização.");
+    return;
+  }
+
+  atualizarMensagemLocalizacao("Buscando sua localização atual...");
+
+  navigator.geolocation.getCurrentPosition(
+    posicao => {
+      document.getElementById("latitude").value = posicao.coords.latitude.toFixed(6);
+      document.getElementById("longitude").value = posicao.coords.longitude.toFixed(6);
+      atualizarMensagemLocalizacao("Localização preenchida com sucesso.");
+    },
+    () => {
+      atualizarMensagemLocalizacao("Não foi possível obter sua localização.");
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    }
+  );
+}
+
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -63,11 +116,19 @@ form.addEventListener("submit", function (event) {
   const pagamento = document.getElementById("pagamento").value;
   const formaPagamento = document.getElementById("formaPagamento").value;
   const obs = document.getElementById("obs").value.trim();
+  const latitude = obterCoordenada("latitude");
+  const longitude = obterCoordenada("longitude");
 
   if (!loja || !vendedor || !destino || !formaPagamento) {
     alert("Preencha os campos obrigatórios!");
     return;
   }
+
+  if (coordenadasPreenchidas(latitude, longitude) && !coordenadasValidas(latitude, longitude)) {
+    alert("Informe uma latitude e longitude válidas ou deixe os dois campos em branco.");
+    return;
+  }
+
   const agora = new Date();
   const novaEntrega = {
     id: Date.now(),
@@ -81,6 +142,8 @@ form.addEventListener("submit", function (event) {
     entregadorTelefone: entregadorSelecionado?.dataset.telefone || "",
     entregadorVeiculo: entregadorSelecionado?.dataset.veiculo || "",
     entregadorPlaca: entregadorSelecionado?.dataset.placa || "",
+    latitude: coordenadasValidas(latitude, longitude) ? latitude : null,
+    longitude: coordenadasValidas(latitude, longitude) ? longitude : null,
     pagamentoStatus: pagamento === "Pago" ? "Pago" : "A Receber",
     pagamentoForma: formaPagamento,
     formaPagamento,
@@ -137,3 +200,7 @@ btnReceber.addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", carregarEntregadoresAtivos);
+document.addEventListener("DOMContentLoaded", function () {
+  const btnLocalizacaoAtual = document.getElementById("btnLocalizacaoAtual");
+  if (btnLocalizacaoAtual) btnLocalizacaoAtual.addEventListener("click", usarLocalizacaoAtual);
+});

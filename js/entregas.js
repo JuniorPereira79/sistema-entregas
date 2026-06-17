@@ -57,6 +57,8 @@ function normalizarEntrega(entrega) {
   const partesDataHora = typeof dataHoraLegada === "string" ? dataHoraLegada.split(",") : [];
   const dataLegada = partesDataHora[0]?.trim() || dataHoraLegada;
   const horaLegada = partesDataHora[1]?.trim()?.slice(0, 5) || "";
+  const latitude = Number(String(entrega.latitude ?? "").replace(",", "."));
+  const longitude = Number(String(entrega.longitude ?? "").replace(",", "."));
 
   return {
     ...entrega,
@@ -72,6 +74,8 @@ function normalizarEntrega(entrega) {
     endereco: entrega.endereco || entrega.destino || entrega.cliente || "-",
     pagamentoStatus: entrega.pagamentoStatus || entrega.pagamento || entrega.statusPagamento || "-",
     pagamentoForma: entrega.pagamentoForma || entrega.formaPagamento || entrega.tipoPagamento || "-",
+    latitude: Number.isFinite(latitude) ? latitude : null,
+    longitude: Number.isFinite(longitude) ? longitude : null,
     data: dataCriacao && !Number.isNaN(dataCriacao.getTime()) ? dataCriacao.toLocaleDateString("pt-BR") : dataLegada,
     hora: entrega.hora || horaLegada || (dataCriacao && !Number.isNaN(dataCriacao.getTime()) ? dataCriacao.toLocaleTimeString("pt-BR", {
       hour: "2-digit",
@@ -81,6 +85,10 @@ function normalizarEntrega(entrega) {
     historico: Array.isArray(entrega.historico) ? entrega.historico : [],
     comprovante: entrega.comprovante || null
   };
+}
+
+function entregaTemLocalizacao(entrega) {
+  return Number.isFinite(entrega.latitude) && Number.isFinite(entrega.longitude);
 }
 
 function normalizarStatus(status) {
@@ -204,6 +212,7 @@ function renderizarEntregas() {
         ${entrega.telefone ? `<p class="info">Telefone: ${entrega.telefone}</p>` : ""}
         <p class="info">🏍 Entregador: ${entrega.entregadorNome || "Não atribuído"}</p>
         ${entrega.entregadorVeiculo ? `<p class="info">Veículo: ${entrega.entregadorVeiculo}${entrega.entregadorPlaca ? ` • ${entrega.entregadorPlaca}` : ""}</p>` : ""}
+        ${entregaTemLocalizacao(entrega) ? `<p class="info">📌 Lat: ${entrega.latitude.toFixed(6)} | Long: ${entrega.longitude.toFixed(6)}</p>` : ""}
         <p class="info">👤 Vendedor: ${entrega.vendedor}</p>
         <p class="info">💰 ${entrega.pagamentoStatus} • ${entrega.pagamentoForma}</p>
 

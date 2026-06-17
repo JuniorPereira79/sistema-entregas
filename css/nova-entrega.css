@@ -66,6 +66,30 @@ body {
   font-size: 14px;
 }
 
+.coordenadas-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 8px;
+}
+
+.btn-localizacao {
+  background: #0f766e;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 11px;
+  width: 100%;
+}
+
+.mensagem-localizacao {
+  color: #555;
+  font-size: 13px;
+  margin-top: 6px;
+  min-height: 18px;
+}
+
 textarea {
   resize: none;
   height: 80px;
