@@ -1,0 +1,211 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f2f2f2;
+  padding-bottom: 32px;
+}
+
+.top-bar {
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  position: relative;
+}
+
+.top-bar h1 {
+  font-size: 22px;
+}
+
+.nav-btn,
+.logout-btn,
+.btn-salvar,
+.btn-maps {
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 12px;
+}
+
+.top-bar .nav-btn,
+.logout-btn {
+  position: absolute;
+}
+
+.nav-btn {
+  background: #3b82f6;
+}
+
+.top-bar .nav-btn.esquerda {
+  left: 16px;
+}
+
+.logout-btn {
+  background: #ef4444;
+  right: 16px;
+}
+
+.app-container {
+  margin: 0 auto;
+  max-width: 1000px;
+  padding: 16px;
+}
+
+.filtros-card,
+.lista-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.filtros-card {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.campo label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.campo select,
+.ordem-input {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  padding: 10px;
+  width: 100%;
+}
+
+.btn-salvar {
+  align-self: end;
+  background: #16a34a;
+}
+
+.lista-topo {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.lista-topo h2 {
+  font-size: 20px;
+}
+
+.lista-topo p {
+  color: #555;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.entrega-rota {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 110px 1fr auto;
+  margin-bottom: 12px;
+  padding: 12px;
+}
+
+.entrega-rota:last-child {
+  margin-bottom: 0;
+}
+
+.ordem-box label {
+  color: #555;
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.entrega-dados h3 {
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.entrega-dados p {
+  color: #444;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.status {
+  border-radius: 20px;
+  color: #fff;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 4px;
+  padding: 5px 9px;
+  text-transform: uppercase;
+}
+
+.status.pendente {
+  background: #3b82f6;
+}
+
+.status.em-rota {
+  background: #f59e0b;
+}
+
+.status.entregue {
+  background: #22c55e;
+}
+
+.status.cancelada {
+  background: #ef4444;
+}
+
+.btn-maps {
+  align-self: center;
+  background: #111827;
+  white-space: nowrap;
+}
+
+.lista-vazia {
+  color: #666;
+  padding: 24px 8px;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .filtros-card,
+  .entrega-rota {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-maps {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .top-bar {
+    height: auto;
+    padding: 12px 8px 56px;
+  }
+
+  .top-bar h1 {
+    font-size: 18px;
+  }
+
+  .top-bar .nav-btn,
+  .logout-btn {
+    bottom: 12px;
+    padding: 7px 9px;
+  }
+}

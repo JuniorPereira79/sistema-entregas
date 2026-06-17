@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rotas | App Entregas</title>
+  <meta name="theme-color" content="#3b82f6">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="stylesheet" href="../css/rotas.css">
+</head>
+<body>
+  <header class="top-bar">
+    <button class="nav-btn esquerda" onclick="window.location.href='dashboard.html'">Dashboard</button>
+    <h1>ROTAS</h1>
+    <button class="logout-btn" onclick="logout()">Sair</button>
+  </header>
+
+  <main class="app-container">
+    <section class="filtros-card">
+      <div class="campo">
+        <label for="filtroEntregador">Entregador</label>
+        <select id="filtroEntregador">
+          <option value="todos">Todos os entregadores</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="filtroStatus">Status</label>
+        <select id="filtroStatus">
+          <option value="todos">Todos os status</option>
+          <option value="pendente">Pendente</option>
+          <option value="em-rota">Em rota</option>
+          <option value="entregue">Entregue</option>
+          <option value="cancelada">Cancelada</option>
+        </select>
+      </div>
+
+      <button class="btn-salvar" id="btnSalvarSequencia">Salvar sequência</button>
+    </section>
+
+    <section class="lista-card">
+      <div class="lista-topo">
+        <div>
+          <h2>Sequência de entregas</h2>
+          <p id="resumoRotas">Carregando entregas...</p>
+        </div>
+      </div>
+
+      <div class="lista-entregas" id="listaRotas"></div>
+    </section>
+  </main>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/rotas.js"></script>
+  <script src="../js/pwa.js"></script>
+</body>
+</html>

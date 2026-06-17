@@ -1,4 +1,4 @@
-const CACHE_NAME = "sistema-entregas-v4";
+const CACHE_NAME = "sistema-entregas-v5";
 
 const FILES_TO_CACHE = [
   "./",
@@ -14,6 +14,7 @@ const FILES_TO_CACHE = [
   "./pages/relatorios.html",
   "./pages/minhas-entregas.html",
   "./pages/mapa.html",
+  "./pages/rotas.html",
   "./css/login.css",
   "./css/dashboard.css",
   "./css/entregas.css",
@@ -23,6 +24,7 @@ const FILES_TO_CACHE = [
   "./css/relatorios.css",
   "./css/minhas-entregas.css",
   "./css/mapa.css",
+  "./css/rotas.css",
   "./js/pwa.js",
   "./js/auth.js",
   "./js/login.js",
@@ -33,7 +35,8 @@ const FILES_TO_CACHE = [
   "./js/transferencias.js",
   "./js/relatorios.js",
   "./js/minhas-entregas.js",
-  "./js/mapa.js"
+  "./js/mapa.js",
+  "./js/rotas.js"
 ];
 
 self.addEventListener("install", event => {
