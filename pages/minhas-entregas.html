@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minhas Entregas</title>
+  <meta name="theme-color" content="#3b82f6">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="stylesheet" href="../css/minhas-entregas.css">
+</head>
+<body>
+  <header class="top-bar">
+    <button class="nav-btn esquerda" onclick="window.location.href='dashboard.html'">Dashboard</button>
+    <h1>MINHAS ENTREGAS</h1>
+    <button class="nav-btn meio" onclick="window.location.href='entregas.html'">Entregas</button>
+    <button class="logout-btn" onclick="logout()">Sair</button>
+  </header>
+
+  <main class="app-container">
+    <section class="resumo-usuario">
+      <p id="infoUsuario"></p>
+    </section>
+
+    <section class="lista-entregas" id="listaMinhasEntregas"></section>
+  </main>
+
+  <div class="modal-comprovante" id="modalComprovante">
+    <div class="modal-conteudo">
+      <h2>Comprovante de entrega</h2>
+
+      <form id="formComprovante">
+        <input type="hidden" id="entregaComprovanteId">
+
+        <div class="campo">
+          <label for="fotoComprovante">Foto do comprovante</label>
+          <input id="fotoComprovante" type="file" accept="image/*" required>
+        </div>
+
+        <div class="campo">
+          <label for="observacaoComprovante">Observação</label>
+          <textarea id="observacaoComprovante" placeholder="Ex: entregue ao cliente, portaria, familiar"></textarea>
+        </div>
+
+        <button type="submit" class="btn-confirmar">Confirmar entrega</button>
+        <button type="button" class="btn-fechar" onclick="fecharModalComprovante()">Cancelar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/minhas-entregas.js"></script>
+  <script src="../js/pwa.js"></script>
+</body>
+</html>

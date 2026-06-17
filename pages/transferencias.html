@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transferências</title>
+  <meta name="theme-color" content="#3b82f6">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="stylesheet" href="../css/transferencias.css">
+</head>
+<body>
+  <header class="top-bar">
+    <button class="voltar-btn" onclick="window.location.href='dashboard.html'">Dashboard</button>
+    <h1>TRANSFERÊNCIAS</h1>
+    <button class="logout-btn" onclick="logout()">Sair</button>
+  </header>
+
+  <main class="app-container">
+    <section class="card">
+      <form id="formTransferencia">
+        <div class="campo">
+          <label for="entregaSelect">Entrega</label>
+          <select id="entregaSelect" required>
+            <option value="">Selecione uma entrega</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Entregador atual</label>
+          <input id="entregadorAtual" type="text" value="Nenhuma entrega selecionada" readonly>
+        </div>
+
+        <div class="campo">
+          <label for="novoEntregadorSelect">Novo entregador</label>
+          <select id="novoEntregadorSelect" required>
+            <option value="">Selecione um entregador ativo</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="motivo">Motivo da transferência</label>
+          <textarea id="motivo" placeholder="Informe o motivo da transferência" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-transferir">Transferir</button>
+      </form>
+    </section>
+
+    <section class="transferencias-realizadas">
+      <h2>Transferências realizadas</h2>
+      <div id="listaTransferencias"></div>
+    </section>
+  </main>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/transferencias.js"></script>
+  <script src="../js/pwa.js"></script>
+</body>
+</html>

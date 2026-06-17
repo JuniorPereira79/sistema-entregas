@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | App Entregas</title>
+  <meta name="theme-color" content="#3b82f6">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+  <header class="top-bar">
+    <h1>DASHBOARD</h1>
+    <button class="logout-btn" onclick="logout()">Sair</button>
+  </header>
+
+  <main class="app-container">
+    <section class="atalhos">
+      <button onclick="window.location.href='entregas.html'">Entregas</button>
+      <button onclick="window.location.href='nova-entrega.html'">Nova entrega</button>
+      <button onclick="window.location.href='entregadores.html'">Entregadores</button>
+      <button onclick="window.location.href='minhas-entregas.html'">Minhas entregas</button>
+      <button onclick="window.location.href='transferencias.html'">Transferências</button>
+      <button onclick="window.location.href='relatorios.html'">Relatórios</button>
+    </section>
+
+    <section class="indicadores">
+      <div class="card-indicador">
+        <span id="totalEntregas">0</span>
+        <p>Total de entregas</p>
+      </div>
+      <div class="card-indicador">
+        <span id="totalPendentes">0</span>
+        <p>Pendentes</p>
+      </div>
+      <div class="card-indicador">
+        <span id="totalEmRota">0</span>
+        <p>Em rota</p>
+      </div>
+      <div class="card-indicador">
+        <span id="totalEntregues">0</span>
+        <p>Entregues</p>
+      </div>
+      <div class="card-indicador">
+        <span id="totalCanceladas">0</span>
+        <p>Canceladas</p>
+      </div>
+      <div class="card-indicador">
+        <span id="totalEntregadores">0</span>
+        <p>Total de entregadores</p>
+      </div>
+      <div class="card-indicador">
+        <span id="entregadoresAtivos">0</span>
+        <p>Entregadores ativos</p>
+      </div>
+      <div class="card-indicador">
+        <span id="entregadoresInativos">0</span>
+        <p>Entregadores inativos</p>
+      </div>
+    </section>
+
+    <section class="recentes">
+      <h2>5 entregas mais recentes</h2>
+      <div id="listaRecentes"></div>
+    </section>
+  </main>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/pwa.js"></script>
+</body>
+</html>

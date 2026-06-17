@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f2f2f2;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  background: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  position: relative;
+}
+
+.voltar-btn {
+  position: absolute;
+  left: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: #fff;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.logout-btn {
+  position: absolute;
+  right: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #fff;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.card,
+.transferencias-realizadas {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+.card {
+  margin-bottom: 16px;
+  padding: 20px;
+}
+
+.campo {
+  margin-bottom: 14px;
+}
+
+.campo label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.campo textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.campo input[readonly] {
+  background: #f3f4f6;
+  color: #555;
+}
+
+.btn-transferir {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 14px;
+}
+
+.transferencias-realizadas {
+  padding: 18px;
+}
+
+.transferencias-realizadas h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.transferencia-item {
+  border-left: 4px solid #3b82f6;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 10px 0 10px 12px;
+}
+
+.transferencia-item:last-child {
+  border-bottom: none;
+}
+
+.transferencia-item p {
+  color: #444;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.transferencia-item span,
+.lista-vazia {
+  color: #666;
+  font-size: 13px;
+}
+
+.lista-vazia {
+  padding: 20px 0;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .top-bar h1 {
+    font-size: 18px;
+  }
+
+  .voltar-btn,
+  .logout-btn {
+    padding: 7px 9px;
+  }
+}

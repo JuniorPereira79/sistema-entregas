@@ -1,0 +1,261 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f2f2f2;
+  padding-bottom: 32px;
+}
+
+.top-bar {
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  position: relative;
+}
+
+.top-bar h1 {
+  font-size: 22px;
+}
+
+.nav-btn,
+.logout-btn {
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px 12px;
+  position: absolute;
+}
+
+.nav-btn {
+  background: #3b82f6;
+}
+
+.nav-btn.esquerda {
+  left: 16px;
+}
+
+.nav-btn.meio {
+  right: 72px;
+}
+
+.logout-btn {
+  background: #ef4444;
+  right: 16px;
+}
+
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.resumo-usuario {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  margin-bottom: 14px;
+  padding: 14px;
+}
+
+.resumo-usuario p {
+  color: #444;
+  font-weight: bold;
+}
+
+.lista-entregas {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  display: flex;
+}
+
+.status-bar {
+  border-radius: 12px 0 0 12px;
+  width: 6px;
+}
+
+.card-content {
+  flex: 1;
+  padding: 14px;
+}
+
+.card-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.card h2 {
+  font-size: 18px;
+}
+
+.card p {
+  color: #444;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.status-text {
+  color: #555;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.acoes button {
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 9px 12px;
+}
+
+.btn-rota,
+.card.em-rota .status-bar {
+  background: #f59e0b;
+}
+
+.btn-entregue,
+.card.entregue .status-bar {
+  background: #22c55e;
+}
+
+.btn-cancelar,
+.card.cancelada .status-bar {
+  background: #ef4444;
+}
+
+.card.pendente .status-bar {
+  background: #3b82f6;
+}
+
+.card.entregue {
+  background: #f0fdf4;
+}
+
+.card.cancelada {
+  background: #fef2f2;
+  opacity: 0.78;
+}
+
+.lista-vazia {
+  color: #666;
+  padding: 24px 8px;
+  text-align: center;
+}
+
+.modal-comprovante {
+  align-items: center;
+  background: rgba(0,0,0,.45);
+  display: none;
+  inset: 0;
+  justify-content: center;
+  padding: 16px;
+  position: fixed;
+  z-index: 10;
+}
+
+.modal-comprovante.ativo {
+  display: flex;
+}
+
+.modal-conteudo {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.25);
+  max-width: 480px;
+  padding: 20px;
+  width: 100%;
+}
+
+.modal-conteudo h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.campo {
+  margin-bottom: 14px;
+}
+
+.campo label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.campo input,
+.campo textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.campo textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.btn-confirmar,
+.btn-fechar {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 12px;
+  width: 100%;
+}
+
+.btn-confirmar {
+  background: #22c55e;
+  color: #fff;
+}
+
+.btn-fechar {
+  background: #e5e7eb;
+  color: #111827;
+  margin-top: 8px;
+}
+
+@media (max-width: 680px) {
+  .top-bar {
+    height: auto;
+    padding: 12px 8px 60px;
+  }
+
+  .top-bar h1 {
+    font-size: 18px;
+  }
+
+  .nav-btn,
+  .logout-btn {
+    bottom: 12px;
+    padding: 7px 9px;
+  }
+
+  .nav-btn.meio {
+    right: 76px;
+  }
+}

@@ -1,0 +1,174 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f2f2f2;
+  padding-bottom: 32px;
+}
+
+.top-bar {
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  position: relative;
+}
+
+.top-bar h1 {
+  font-size: 22px;
+}
+
+.logout-btn {
+  background: #ef4444;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px 12px;
+  position: absolute;
+  right: 16px;
+}
+
+.app-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.atalhos {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(6, 1fr);
+  margin-bottom: 16px;
+}
+
+.atalhos button {
+  background: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 12px;
+}
+
+.indicadores {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 20px;
+}
+
+.card-indicador,
+.recentes {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+.card-indicador {
+  padding: 18px 12px;
+  text-align: center;
+}
+
+.card-indicador span {
+  color: #2563eb;
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.card-indicador p {
+  color: #555;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.recentes {
+  padding: 16px;
+}
+
+.recentes h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.entrega-recente {
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.entrega-recente:last-child {
+  border-bottom: none;
+}
+
+.entrega-recente p {
+  color: #444;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.entrega-recente span {
+  color: #666;
+  font-size: 12px;
+}
+
+.status {
+  border-radius: 20px;
+  color: #fff;
+  flex-shrink: 0;
+  font-weight: bold;
+  padding: 6px 10px;
+  text-transform: uppercase;
+}
+
+.status.pendente {
+  background: #3b82f6;
+}
+
+.status.em-rota {
+  background: #f59e0b;
+}
+
+.status.entregue {
+  background: #22c55e;
+}
+
+.status.cancelada {
+  background: #ef4444;
+}
+
+.lista-vazia {
+  color: #666;
+  padding: 20px 0;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .atalhos,
+  .indicadores {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .atalhos,
+  .indicadores {
+    grid-template-columns: 1fr;
+  }
+
+  .entrega-recente {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

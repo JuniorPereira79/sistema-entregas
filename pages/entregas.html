@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entregas</title>
+  <meta name="theme-color" content="#3b82f6">
+  <link rel="manifest" href="../manifest.json">
+
+  <link rel="stylesheet" href="../css/entregas.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="top-bar">
+    <button class="menu-btn" onclick="window.location.href='entregadores.html'">Entregadores</button>
+    <h1>ENTREGAS</h1>
+    <button class="dashboard-btn" onclick="window.location.href='dashboard.html'">Dashboard</button>
+    <button class="logout-btn" onclick="logout()">Sair</button>
+  </header>
+
+  <main class="app-container">
+
+    <!-- FILTRO DE LOJAS -->
+    <div class="filtros-loja">
+      <button class="ativo" onclick="selecionarLoja('Centro', this)">Loja Centro</button>
+      <button onclick="selecionarLoja('Jardins', this)">Loja Jardins</button>
+      <button onclick="selecionarLoja('Siqueira', this)">Siqueira Campos</button>
+      <button onclick="selecionarLoja('São José', this)">São José</button>
+    </div>
+
+    <section class="painel-controles">
+      <input
+        type="search"
+        id="campoPesquisa"
+        placeholder="Pesquisar por cliente, endereço ou telefone"
+      >
+
+      <select id="filtroStatus">
+        <option value="todos">Todos os status</option>
+        <option value="pendente">Pendente</option>
+        <option value="em-rota">Em rota</option>
+        <option value="entregue">Entregue</option>
+        <option value="cancelada">Cancelada</option>
+      </select>
+    </section>
+
+    <section class="contadores-status">
+      <div class="contador-card">
+        <span id="contadorPendentes">0</span>
+        <p>Pendentes</p>
+      </div>
+      <div class="contador-card">
+        <span id="contadorEmRota">0</span>
+        <p>Em rota</p>
+      </div>
+      <div class="contador-card">
+        <span id="contadorEntregues">0</span>
+        <p>Entregues</p>
+      </div>
+      <div class="contador-card">
+        <span id="contadorCanceladas">0</span>
+        <p>Canceladas</p>
+      </div>
+    </section>
+
+    <section class="lista-entregas" id="lista-entregas"></section>
+
+  </main>
+
+  <!-- BOTÃO NOVA ENTREGA -->
+  <button class="btn-nova" onclick="irParaNovaEntrega()">
+    + Nova Entrega
+  </button>
+
+  <div class="modal-historico" id="modalHistorico">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharHistorico()">×</button>
+      <h2>Histórico da entrega</h2>
+      <div id="conteudoHistorico"></div>
+    </div>
+  </div>
+
+  <div class="modal-historico" id="modalComprovante">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharComprovante()">×</button>
+      <h2>Comprovante da entrega</h2>
+      <div id="conteudoComprovante"></div>
+    </div>
+  </div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/entregas.js"></script>
+  <script src="../js/pwa.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f2f2f2;
+  padding-bottom: 32px;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  background: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  position: relative;
+}
+
+.top-bar h1 {
+  font-size: 22px;
+}
+
+.voltar-btn,
+.logout-btn {
+  position: absolute;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.voltar-btn {
+  left: 16px;
+  background: #3b82f6;
+}
+
+.logout-btn {
+  right: 16px;
+  background: #ef4444;
+}
+
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.card,
+.entregador-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+.card {
+  margin-bottom: 16px;
+  padding: 20px;
+}
+
+.campo {
+  margin-bottom: 14px;
+}
+
+.campo label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.btn-salvar,
+.btn-cancelar,
+.acoes button {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 10px 12px;
+}
+
+.btn-salvar {
+  width: 100%;
+  background: #3b82f6;
+  color: #fff;
+  font-size: 16px;
+}
+
+.btn-cancelar {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.lista-entregadores {
+  display: grid;
+  gap: 12px;
+}
+
+.entregador-card {
+  border-left: 6px solid #22c55e;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+}
+
+.entregador-card.inativo {
+  border-left-color: #ef4444;
+  opacity: 0.75;
+}
+
+.entregador-card h2 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.entregador-card p {
+  color: #444;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.status {
+  color: #555;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.acoes {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-editar {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn-excluir {
+  background: #111827;
+  color: #fff;
+}
+
+.lista-vazia {
+  color: #666;
+  padding: 24px 8px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .top-bar h1 {
+    font-size: 18px;
+  }
+
+  .entregador-card {
+    flex-direction: column;
+  }
+
+  .acoes {
+    align-items: stretch;
+  }
+}
