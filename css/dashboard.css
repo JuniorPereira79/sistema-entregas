@@ -66,6 +66,7 @@ body {
 }
 
 .card-indicador,
+.grafico-card,
 .recentes {
   background: #fff;
   border-radius: 10px;
@@ -88,6 +89,51 @@ body {
   color: #555;
   font-size: 14px;
   margin-top: 6px;
+}
+
+.graficos {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 20px;
+}
+
+.grafico-card {
+  padding: 16px;
+}
+
+.grafico-card-largo {
+  grid-column: 1 / -1;
+}
+
+.grafico-card h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.grafico-area {
+  height: 280px;
+  position: relative;
+}
+
+.grafico-vazio {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  color: #64748b;
+  display: none;
+  font-size: 14px;
+  margin-bottom: 12px;
+  padding: 14px;
+  text-align: center;
+}
+
+.grafico-vazio.ativo {
+  display: block;
+}
+
+.grafico-card.sem-dados .grafico-area {
+  display: none;
 }
 
 .recentes {
@@ -156,14 +202,20 @@ body {
 
 @media (max-width: 760px) {
   .atalhos,
-  .indicadores {
+  .indicadores,
+  .graficos {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grafico-card-largo {
+    grid-column: auto;
   }
 }
 
 @media (max-width: 480px) {
   .atalhos,
-  .indicadores {
+  .indicadores,
+  .graficos {
     grid-template-columns: 1fr;
   }
 
