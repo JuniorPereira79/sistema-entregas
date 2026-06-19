@@ -376,8 +376,40 @@ body {
 }
 
 @media (max-width: 640px) {
+  .top-bar {
+    height: auto;
+    min-height: 58px;
+    padding: 10px 66px 10px 58px;
+  }
+
+  .top-bar h1 {
+    font-size: 18px;
+  }
+
+  .menu-btn,
+  .dashboard-btn {
+    display: none;
+  }
+
   .contadores-status {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    border-radius: 10px;
+  }
+
+  .card-content {
+    padding: 10px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .info {
+    font-size: 13px;
   }
 
   .footer {
@@ -386,6 +418,14 @@ body {
   }
 
   .acoes {
+    display: grid;
+    gap: 6px;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+  }
+
+  .acoes button {
+    margin: 0;
     width: 100%;
   }
 }

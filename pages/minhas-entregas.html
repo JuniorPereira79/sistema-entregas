@@ -7,12 +7,13 @@
   <meta name="theme-color" content="#3b82f6">
   <link rel="manifest" href="../manifest.json">
   <link rel="stylesheet" href="../css/minhas-entregas.css">
+  <link rel="stylesheet" href="../css/menu.css">
 </head>
 <body>
   <header class="top-bar">
-    <button class="nav-btn esquerda" onclick="window.location.href='dashboard.html'">Dashboard</button>
+    <button class="nav-btn esquerda" data-perfis="administrador" onclick="window.location.href='dashboard.html'">Dashboard</button>
     <h1>MINHAS ENTREGAS</h1>
-    <button class="nav-btn meio" onclick="window.location.href='entregas.html'">Entregas</button>
+    <button class="nav-btn meio" data-perfis="administrador" onclick="window.location.href='entregas.html'">Entregas</button>
     <button class="logout-btn" onclick="logout()">Sair</button>
   </header>
 
@@ -48,6 +49,7 @@
   </div>
 
   <script src="../js/auth.js"></script>
+  <script src="../js/menu.js"></script>
   <script src="../js/notificacoes-core.js"></script>
   <script src="../js/minhas-entregas.js"></script>
   <script src="../js/pwa.js"></script>

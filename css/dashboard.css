@@ -238,4 +238,12 @@ body {
     align-items: flex-start;
     flex-direction: column;
   }
+
+  .card-indicador {
+    padding: 14px 10px;
+  }
+
+  .grafico-area {
+    height: 230px;
+  }
 }

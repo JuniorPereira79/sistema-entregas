@@ -203,4 +203,49 @@ td {
   .indicadores {
     grid-template-columns: 1fr;
   }
+
+  .tabela-wrapper {
+    overflow-x: visible;
+  }
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  table {
+    min-width: 0;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    padding: 10px;
+  }
+
+  td {
+    border-bottom: none;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    padding: 7px 0;
+  }
+
+  td:nth-child(1)::before { content: "Código"; font-weight: 700; }
+  td:nth-child(2)::before { content: "Cliente"; font-weight: 700; }
+  td:nth-child(3)::before { content: "Endereço"; font-weight: 700; }
+  td:nth-child(4)::before { content: "Telefone"; font-weight: 700; }
+  td:nth-child(5)::before { content: "Entregador"; font-weight: 700; }
+  td:nth-child(6)::before { content: "Status"; font-weight: 700; }
+  td:nth-child(7)::before { content: "Criação"; font-weight: 700; }
+  td:nth-child(8)::before { content: "Conclusão"; font-weight: 700; }
 }

@@ -3,8 +3,23 @@ const form = document.getElementById("loginForm");
 const inputUsuario = document.getElementById("usuario");
 const inputSenha = document.getElementById("senha");
 
+function obterPaginaInicialPorPerfil(perfil) {
+  const paginas = {
+    administrador: "dashboard.html",
+    vendedor: "nova-entrega.html",
+    entregador: "minhas-entregas.html"
+  };
+
+  return paginas[perfil] || "login.html";
+}
+
 if (localStorage.getItem("usuarioLogado")) {
-  window.location.href = "dashboard.html";
+  try {
+    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+    window.location.href = obterPaginaInicialPorPerfil(usuarioLogado.perfil);
+  } catch {
+    localStorage.removeItem("usuarioLogado");
+  }
 }
 
 // Simulação de usuários (por enquanto)
@@ -19,7 +34,14 @@ const usuarios = [
     usuario: "motoboy",
     senha: "123",
     nome: "Motoboy",
-    perfil: "entregador"
+    perfil: "entregador",
+    entregadorId: 1
+  },
+  {
+    usuario: "vendedor",
+    senha: "123",
+    nome: "Vendedor",
+    perfil: "vendedor"
   }
 ];
 
@@ -47,7 +69,7 @@ form.addEventListener("submit", function (event) {
     // Salvando login (simulação de sessão)
     localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
 
-    window.location.href = "dashboard.html";
+    window.location.href = obterPaginaInicialPorPerfil(usuarioEncontrado.perfil);
   } else {
     alert("Usuário ou senha inválidos");
   }

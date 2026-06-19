@@ -1,4 +1,4 @@
-const CACHE_NAME = "sistema-entregas-v6";
+const CACHE_NAME = "sistema-entregas-v8";
 
 const FILES_TO_CACHE = [
   "./",
@@ -27,6 +27,7 @@ const FILES_TO_CACHE = [
   "./css/mapa.css",
   "./css/rotas.css",
   "./css/notificacoes.css",
+  "./css/menu.css",
   "./js/pwa.js",
   "./js/auth.js",
   "./js/login.js",
@@ -40,7 +41,8 @@ const FILES_TO_CACHE = [
   "./js/mapa.js",
   "./js/rotas.js",
   "./js/notificacoes-core.js",
-  "./js/notificacoes.js"
+  "./js/notificacoes.js",
+  "./js/menu.js"
 ];
 
 self.addEventListener("install", event => {

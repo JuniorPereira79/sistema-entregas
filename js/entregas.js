@@ -171,6 +171,27 @@ function entregaCombinaComPesquisa(entrega, pesquisa) {
   return texto.includes(pesquisa);
 }
 
+function usuarioPodeVerEntrega(entrega) {
+  const usuarioLogado = obterUsuarioLogado();
+  const perfil = obterPerfilUsuario(usuarioLogado);
+
+  if (perfil === "administrador") return true;
+
+  if (perfil === "vendedor") {
+    const vendedorEntrega = String(entrega.vendedor || "").toLowerCase();
+    const nomeUsuario = String(usuarioLogado?.nome || "").toLowerCase();
+    const loginUsuario = String(usuarioLogado?.usuario || "").toLowerCase();
+
+    return vendedorEntrega === nomeUsuario || vendedorEntrega === loginUsuario;
+  }
+
+  return false;
+}
+
+function usuarioPodeGerenciarEntregas() {
+  return obterPerfilUsuario() === "administrador";
+}
+
 // ================================
 // RENDERIZAÇÃO
 // ================================
@@ -184,6 +205,7 @@ function renderizarEntregas() {
   const filtros = obterFiltros();
 
   const filtradas = entregas.filter(e => {
+    if (!usuarioPodeVerEntrega(e)) return false;
     if (e.loja !== lojaSelecionada) return false;
     if (filtros.status !== "todos" && e.status !== filtros.status) return false;
 
@@ -196,6 +218,7 @@ function renderizarEntregas() {
   }
 
   filtradas.forEach(entrega => {
+    const podeGerenciar = usuarioPodeGerenciarEntregas();
     const card = document.createElement("div");
     card.className = "card";
 
@@ -223,13 +246,13 @@ function renderizarEntregas() {
           </div>
 
           <div class="acoes">
-            ${entrega.status === "pendente" ? `<button class="btn-rota" onclick="marcarEmRota(${entrega.id})">Em rota</button>` : ""}
-            ${entrega.status !== "entregue" && entrega.status !== "cancelada" ? `<button class="btn-entregue" onclick="marcarEntregue(${entrega.id})">Entregue</button>` : ""}
-            ${entrega.status !== "cancelada" && entrega.status !== "entregue" ? `<button class="btn-cancelar" onclick="cancelarEntrega(${entrega.id})">Cancelar</button>` : ""}
-            <button class="btn-editar" onclick="editarEntrega(${entrega.id})">Editar</button>
+            ${podeGerenciar && entrega.status === "pendente" ? `<button class="btn-rota" onclick="marcarEmRota(${entrega.id})">Em rota</button>` : ""}
+            ${podeGerenciar && entrega.status !== "entregue" && entrega.status !== "cancelada" ? `<button class="btn-entregue" onclick="marcarEntregue(${entrega.id})">Entregue</button>` : ""}
+            ${podeGerenciar && entrega.status !== "cancelada" && entrega.status !== "entregue" ? `<button class="btn-cancelar" onclick="cancelarEntrega(${entrega.id})">Cancelar</button>` : ""}
+            ${podeGerenciar ? `<button class="btn-editar" onclick="editarEntrega(${entrega.id})">Editar</button>` : ""}
             <button class="btn-historico" onclick="verHistorico(${entrega.id})">Ver histórico</button>
             ${entrega.status === "entregue" && entrega.comprovante ? `<button class="btn-comprovante" onclick="verComprovante(${entrega.id})">Ver comprovante</button>` : ""}
-            <button class="btn-excluir" onclick="excluirEntrega(${entrega.id})">Excluir</button>
+            ${podeGerenciar ? `<button class="btn-excluir" onclick="excluirEntrega(${entrega.id})">Excluir</button>` : ""}
           </div>
         </div>
       </div>

@@ -51,6 +51,17 @@ function carregarEntregadoresAtivos() {
   });
 }
 
+function preencherVendedorLogado() {
+  const usuarioLogado = obterUsuarioLogado();
+  const perfil = obterPerfilUsuario(usuarioLogado);
+  const vendedorInput = document.getElementById("vendedor");
+
+  if (perfil !== "vendedor" || !vendedorInput) return;
+
+  vendedorInput.value = usuarioLogado.nome || usuarioLogado.usuario || "";
+  vendedorInput.readOnly = true;
+}
+
 function obterCoordenada(id) {
   const valor = document.getElementById(id).value.trim().replace(",", ".");
   if (!valor) return null;
@@ -205,6 +216,7 @@ btnReceber.addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", carregarEntregadoresAtivos);
+document.addEventListener("DOMContentLoaded", preencherVendedorLogado);
 document.addEventListener("DOMContentLoaded", function () {
   const btnLocalizacaoAtual = document.getElementById("btnLocalizacaoAtual");
   if (btnLocalizacaoAtual) btnLocalizacaoAtual.addEventListener("click", usarLocalizacaoAtual);
