@@ -251,6 +251,11 @@ function atualizarStatusEntrega(id, status) {
   entrega.status = status;
   adicionarHistorico(entrega, `Status alterado para ${nomeStatus(status)}`);
   salvarEntregas();
+  window.registrarNotificacoesEntrega?.(
+    "status",
+    `Status da entrega de ${entrega.cliente} alterado para ${nomeStatus(status)}.`,
+    entrega
+  );
   renderizarEntregas();
 }
 

@@ -318,7 +318,9 @@ function carregarDashboard() {
   const entregas = carregarLista("entregas");
   const entregadores = carregarLista("entregadores");
   const entregasNormalizadas = renderizarIndicadores(entregas, entregadores);
+  const usuarioLogado = obterUsuarioLogado();
 
+  atualizarTexto("contadorNotificacoes", window.notificacoesApp?.contarNotificacoesNaoLidas(usuarioLogado) || 0);
   renderizarGraficos(entregasNormalizadas);
   renderizarRecentes(entregasNormalizadas);
 }

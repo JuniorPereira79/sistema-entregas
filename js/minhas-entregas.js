@@ -162,6 +162,11 @@ function alterarStatus(id, status) {
   };
   adicionarHistorico(entrega, acoes[status] || `Status alterado para ${nomeStatus(status)}`);
   salvarEntregas();
+  window.registrarNotificacoesEntrega?.(
+    "status",
+    `Status da entrega de ${entrega.cliente} alterado para ${nomeStatus(status)}.`,
+    entrega
+  );
   renderizarMinhasEntregas();
 }
 
@@ -225,6 +230,16 @@ async function confirmarEntregaComComprovante(event) {
     adicionarHistorico(entrega, "Entrega concluída com comprovante");
 
     salvarEntregas();
+    window.registrarNotificacoesEntrega?.(
+      "status",
+      `Status da entrega de ${entrega.cliente} alterado para ${nomeStatus(entrega.status)}.`,
+      entrega
+    );
+    window.registrarNotificacoesEntrega?.(
+      "comprovante",
+      `Comprovante enviado para a entrega de ${entrega.cliente}.`,
+      entrega
+    );
     fecharModalComprovante();
     renderizarMinhasEntregas();
   } catch {

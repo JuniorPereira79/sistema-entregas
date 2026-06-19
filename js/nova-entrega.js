@@ -164,6 +164,11 @@ form.addEventListener("submit", function (event) {
 
 
   salvarEntrega(novaEntrega);
+  window.registrarNotificacoesEntrega?.(
+    "nova-entrega",
+    `Nova entrega criada para ${novaEntrega.cliente}.`,
+    novaEntrega
+  );
 
   window.location.href = "entregas.html";
 });

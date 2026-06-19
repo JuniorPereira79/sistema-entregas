@@ -181,6 +181,11 @@ function transferirEntrega(event) {
   transferencias.push(registroTransferencia);
   salvarLista("entregas", entregas);
   salvarLista("transferencias", transferencias);
+  window.registrarNotificacoesEntrega?.(
+    "transferencia",
+    `Entrega de ${entrega.cliente} transferida de ${entregadorAntigo} para ${entregadorNovo}.`,
+    entrega
+  );
 
   alert("Transferência realizada com sucesso!");
   formTransferencia.reset();
