@@ -214,13 +214,25 @@ body {
   padding: 12px;
 }
 
+#assinaturaCanvas {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  cursor: crosshair;
+  display: block;
+  height: 180px;
+  touch-action: none;
+  width: 100%;
+}
+
 .campo textarea {
   min-height: 90px;
   resize: vertical;
 }
 
 .btn-confirmar,
-.btn-fechar {
+.btn-fechar,
+.btn-limpar-assinatura,
+.btn-cancelar-modal {
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -237,6 +249,17 @@ body {
   background: #e5e7eb;
   color: #111827;
   margin-top: 8px;
+}
+
+.btn-limpar-assinatura {
+  background: #6b7280;
+  color: #fff;
+  margin-top: 8px;
+}
+
+.btn-cancelar-modal {
+  background: #ef4444;
+  color: #fff;
 }
 
 @media (max-width: 680px) {

@@ -46,6 +46,11 @@ function formatarDataHora(data) {
 }
 
 function obterDataCriacao(entrega) {
+  if (entrega.dataCriacao) {
+    const data = new Date(entrega.dataCriacao);
+    if (!Number.isNaN(data.getTime())) return data;
+  }
+
   if (entrega.criadoEm) {
     const data = new Date(entrega.criadoEm);
     if (!Number.isNaN(data.getTime())) return data;
@@ -355,6 +360,11 @@ function exportarPdf() {
 }
 
 function iniciarRelatorios() {
+  if (!podeVerRelatorios()) {
+    alertarSemPermissao();
+    return;
+  }
+
   entregas = carregarLista("entregas").map(normalizarEntrega);
   entregadores = carregarLista("entregadores");
 

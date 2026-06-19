@@ -34,6 +34,11 @@ function limparFormulario() {
 }
 
 function renderizarEntregadores() {
+  if (!podeCadastrarEntregador()) {
+    alertarSemPermissao();
+    return;
+  }
+
   const lista = document.getElementById("listaEntregadores");
   entregadores = carregarEntregadores();
   lista.innerHTML = "";
@@ -67,6 +72,11 @@ function renderizarEntregadores() {
 }
 
 function editarEntregador(id) {
+  if (!podeCadastrarEntregador()) {
+    alertarSemPermissao();
+    return;
+  }
+
   const entregador = entregadores.find(item => item.id === id);
   if (!entregador) return;
 
@@ -81,6 +91,11 @@ function editarEntregador(id) {
 }
 
 function excluirEntregador(id) {
+  if (!podeCadastrarEntregador()) {
+    alertarSemPermissao();
+    return;
+  }
+
   if (!confirm("Deseja excluir este entregador?")) return;
 
   entregadores = carregarEntregadores().filter(entregador => entregador.id !== id);
@@ -91,6 +106,10 @@ function excluirEntregador(id) {
 
 formEntregador.addEventListener("submit", function (event) {
   event.preventDefault();
+  if (!podeCadastrarEntregador()) {
+    alertarSemPermissao();
+    return;
+  }
 
   entregadores = carregarEntregadores();
   const idEditando = inputId.value ? Number(inputId.value) : null;

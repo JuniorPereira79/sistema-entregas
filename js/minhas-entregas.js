@@ -1,4 +1,6 @@
 let entregas = [];
+let assinaturaFoiPreenchida = false;
+let desenhandoAssinatura = false;
 
 function carregarEntregas() {
   const dados = localStorage.getItem("entregas");
@@ -138,7 +140,7 @@ function renderizarMinhasEntregas() {
         <div class="acoes">
           ${entrega.status === "pendente" ? `<button class="btn-rota" onclick="alterarStatus(${entrega.id}, 'em-rota')">Iniciar rota</button>` : ""}
           ${entrega.status !== "entregue" && entrega.status !== "cancelada" ? `<button class="btn-entregue" onclick="abrirModalComprovante(${entrega.id})">Marcar entregue</button>` : ""}
-          ${entrega.status !== "entregue" && entrega.status !== "cancelada" ? `<button class="btn-cancelar" onclick="alterarStatus(${entrega.id}, 'cancelada')">Cancelar</button>` : ""}
+          ${entrega.status !== "entregue" && entrega.status !== "cancelada" ? `<button class="btn-cancelar" onclick="abrirModalCancelamento(${entrega.id})">Cancelar</button>` : ""}
         </div>
       </div>
     `;
@@ -148,11 +150,13 @@ function renderizarMinhasEntregas() {
 }
 
 function alterarStatus(id, status) {
-  if (status === "cancelada" && !confirm("Deseja CANCELAR esta entrega?")) return;
-
   entregas = carregarEntregas();
   const entrega = entregas.find(item => item.id === id);
   if (!entrega) return;
+  if (!podeAlterarStatusEntrega(entrega)) {
+    alertarSemPermissao();
+    return;
+  }
 
   entrega.status = status;
   const acoes = {
@@ -178,12 +182,33 @@ function abrirModalComprovante(id) {
 
   form.reset();
   inputId.value = id;
+  limparAssinatura();
   modal.classList.add("ativo");
 }
 
 function fecharModalComprovante() {
   const modal = document.getElementById("modalComprovante");
   const form = document.getElementById("formComprovante");
+
+  if (form) form.reset();
+  limparAssinatura();
+  if (modal) modal.classList.remove("ativo");
+}
+
+function abrirModalCancelamento(id) {
+  const modal = document.getElementById("modalCancelamento");
+  const inputId = document.getElementById("entregaCancelamentoId");
+  const form = document.getElementById("formCancelamento");
+  if (!modal || !inputId || !form) return;
+
+  form.reset();
+  inputId.value = id;
+  modal.classList.add("ativo");
+}
+
+function fecharModalCancelamento() {
+  const modal = document.getElementById("modalCancelamento");
+  const form = document.getElementById("formCancelamento");
 
   if (form) form.reset();
   if (modal) modal.classList.remove("ativo");
@@ -204,30 +229,44 @@ async function confirmarEntregaComComprovante(event) {
 
   const entregaId = Number(document.getElementById("entregaComprovanteId").value);
   const fotoInput = document.getElementById("fotoComprovante");
+  const nomeRecebedorInput = document.getElementById("nomeRecebedor");
   const observacaoInput = document.getElementById("observacaoComprovante");
   const arquivo = fotoInput.files[0];
+  const nomeRecebedor = nomeRecebedorInput.value.trim();
 
-  if (!arquivo) {
-    alert("Selecione a foto do comprovante.");
+  if (!nomeRecebedor) {
+    alert("Informe o nome de quem recebeu a entrega.");
+    return;
+  }
+
+  if (!assinaturaFoiPreenchida) {
+    alert("Solicite a assinatura digital antes de confirmar a entrega.");
     return;
   }
 
   try {
-    const imagemBase64 = await lerArquivoComoBase64(arquivo);
+    const imagemBase64 = arquivo ? await lerArquivoComoBase64(arquivo) : "";
+    const assinatura = document.getElementById("assinaturaCanvas").toDataURL("image/png");
     const agora = new Date();
 
     entregas = carregarEntregas();
     const entrega = entregas.find(item => item.id === entregaId);
     if (!entrega) return;
+    if (!podeAlterarStatusEntrega(entrega)) {
+      alertarSemPermissao();
+      return;
+    }
 
     entrega.status = "entregue";
     entrega.comprovante = {
       imagem: imagemBase64,
       observacao: observacaoInput.value.trim(),
+      nomeRecebedor,
+      assinatura,
       dataHora: agora.toLocaleString("pt-BR"),
       usuario: obterNomeUsuarioLogado()
     };
-    adicionarHistorico(entrega, "Entrega concluída com comprovante");
+    adicionarHistorico(entrega, "Entrega concluída com comprovante e assinatura digital");
 
     salvarEntregas();
     window.registrarNotificacoesEntrega?.(
@@ -247,6 +286,111 @@ async function confirmarEntregaComComprovante(event) {
   }
 }
 
+function confirmarCancelamento(event) {
+  event.preventDefault();
+
+  const entregaId = Number(document.getElementById("entregaCancelamentoId").value);
+  const motivo = document.getElementById("motivoCancelamento").value.trim();
+
+  if (!motivo) {
+    alert("Informe uma justificativa para cancelar a entrega.");
+    return;
+  }
+
+  entregas = carregarEntregas();
+  const entrega = entregas.find(item => item.id === entregaId);
+  if (!entrega) return;
+  if (!podeAlterarStatusEntrega(entrega)) {
+    alertarSemPermissao();
+    return;
+  }
+
+  const agora = new Date();
+  entrega.status = "cancelada";
+  entrega.cancelamento = {
+    motivo,
+    dataHora: agora.toLocaleString("pt-BR"),
+    usuario: obterNomeUsuarioLogado()
+  };
+  adicionarHistorico(entrega, `Entrega cancelada. Motivo: ${motivo}`);
+
+  salvarEntregas();
+  window.registrarNotificacoesEntrega?.(
+    "status",
+    `Entrega de ${entrega.cliente} cancelada. Motivo: ${motivo}.`,
+    entrega
+  );
+  fecharModalCancelamento();
+  renderizarMinhasEntregas();
+}
+
+function obterPontoCanvas(evento, canvas) {
+  const retangulo = canvas.getBoundingClientRect();
+  const toque = evento.touches?.[0] || evento.changedTouches?.[0];
+  const origem = toque || evento;
+
+  return {
+    x: (origem.clientX - retangulo.left) * (canvas.width / retangulo.width),
+    y: (origem.clientY - retangulo.top) * (canvas.height / retangulo.height)
+  };
+}
+
+function iniciarAssinatura(evento) {
+  const canvas = document.getElementById("assinaturaCanvas");
+  const contexto = canvas.getContext("2d");
+  const ponto = obterPontoCanvas(evento, canvas);
+
+  evento.preventDefault();
+  desenhandoAssinatura = true;
+  contexto.beginPath();
+  contexto.moveTo(ponto.x, ponto.y);
+}
+
+function desenharAssinatura(evento) {
+  if (!desenhandoAssinatura) return;
+
+  const canvas = document.getElementById("assinaturaCanvas");
+  const contexto = canvas.getContext("2d");
+  const ponto = obterPontoCanvas(evento, canvas);
+
+  evento.preventDefault();
+  contexto.lineWidth = 2;
+  contexto.lineCap = "round";
+  contexto.strokeStyle = "#111827";
+  contexto.lineTo(ponto.x, ponto.y);
+  contexto.stroke();
+  assinaturaFoiPreenchida = true;
+}
+
+function finalizarAssinatura() {
+  desenhandoAssinatura = false;
+}
+
+function limparAssinatura() {
+  const canvas = document.getElementById("assinaturaCanvas");
+  if (!canvas) return;
+
+  const contexto = canvas.getContext("2d");
+  contexto.clearRect(0, 0, canvas.width, canvas.height);
+  assinaturaFoiPreenchida = false;
+  desenhandoAssinatura = false;
+}
+
+function prepararCanvasAssinatura() {
+  const canvas = document.getElementById("assinaturaCanvas");
+  const btnLimpar = document.getElementById("btnLimparAssinatura");
+  if (!canvas || !btnLimpar) return;
+
+  canvas.addEventListener("mousedown", iniciarAssinatura);
+  canvas.addEventListener("mousemove", desenharAssinatura);
+  canvas.addEventListener("mouseup", finalizarAssinatura);
+  canvas.addEventListener("mouseleave", finalizarAssinatura);
+  canvas.addEventListener("touchstart", iniciarAssinatura);
+  canvas.addEventListener("touchmove", desenharAssinatura);
+  canvas.addEventListener("touchend", finalizarAssinatura);
+  btnLimpar.addEventListener("click", limparAssinatura);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   atualizarInfoUsuario();
   renderizarMinhasEntregas();
@@ -255,4 +399,11 @@ document.addEventListener("DOMContentLoaded", function () {
   if (formComprovante) {
     formComprovante.addEventListener("submit", confirmarEntregaComComprovante);
   }
+
+  const formCancelamento = document.getElementById("formCancelamento");
+  if (formCancelamento) {
+    formCancelamento.addEventListener("submit", confirmarCancelamento);
+  }
+
+  prepararCanvasAssinatura();
 });

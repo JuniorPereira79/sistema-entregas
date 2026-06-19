@@ -375,6 +375,41 @@ body {
   margin-bottom: 8px;
 }
 
+.comprovante-view .assinatura-img {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  max-height: 180px;
+}
+
+.campo-modal {
+  margin-bottom: 14px;
+}
+
+.campo-modal label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.campo-modal textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  min-height: 110px;
+  padding: 12px;
+  resize: vertical;
+  width: 100%;
+}
+
+.btn-confirmar-cancelamento {
+  background: #ef4444;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 12px;
+  width: 100%;
+}
+
 @media (max-width: 640px) {
   .top-bar {
     height: auto;

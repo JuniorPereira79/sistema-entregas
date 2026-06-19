@@ -53,7 +53,7 @@ function adicionarHistorico(entrega, acao) {
 
 function normalizarEntrega(entrega) {
   const dataHoraLegada = entrega.data || entrega.dataHora || entrega.criadoEm || "";
-  const dataCriacao = entrega.criadoEm ? new Date(entrega.criadoEm) : null;
+  const dataCriacao = entrega.dataCriacao || entrega.criadoEm ? new Date(entrega.dataCriacao || entrega.criadoEm) : null;
   const partesDataHora = typeof dataHoraLegada === "string" ? dataHoraLegada.split(",") : [];
   const dataLegada = partesDataHora[0]?.trim() || dataHoraLegada;
   const horaLegada = partesDataHora[1]?.trim()?.slice(0, 5) || "";
@@ -74,6 +74,9 @@ function normalizarEntrega(entrega) {
     endereco: entrega.endereco || entrega.destino || entrega.cliente || "-",
     pagamentoStatus: entrega.pagamentoStatus || entrega.pagamento || entrega.statusPagamento || "-",
     pagamentoForma: entrega.pagamentoForma || entrega.formaPagamento || entrega.tipoPagamento || "-",
+    criadoPorUsuario: entrega.criadoPorUsuario || entrega.usuarioCriacao || entrega.vendedor || "",
+    criadoPorPerfil: entrega.criadoPorPerfil || "",
+    dataCriacao: entrega.dataCriacao || entrega.criadoEm || "",
     latitude: Number.isFinite(latitude) ? latitude : null,
     longitude: Number.isFinite(longitude) ? longitude : null,
     data: dataCriacao && !Number.isNaN(dataCriacao.getTime()) ? dataCriacao.toLocaleDateString("pt-BR") : dataLegada,
@@ -83,7 +86,8 @@ function normalizarEntrega(entrega) {
     }) : ""),
     status: normalizarStatus(entrega.status),
     historico: Array.isArray(entrega.historico) ? entrega.historico : [],
-    comprovante: entrega.comprovante || null
+    comprovante: entrega.comprovante || null,
+    cancelamento: entrega.cancelamento || null
   };
 }
 
@@ -178,18 +182,10 @@ function usuarioPodeVerEntrega(entrega) {
   if (perfil === "administrador") return true;
 
   if (perfil === "vendedor") {
-    const vendedorEntrega = String(entrega.vendedor || "").toLowerCase();
-    const nomeUsuario = String(usuarioLogado?.nome || "").toLowerCase();
-    const loginUsuario = String(usuarioLogado?.usuario || "").toLowerCase();
-
-    return vendedorEntrega === nomeUsuario || vendedorEntrega === loginUsuario;
+    return entregaFoiCriadaPeloUsuario(entrega, usuarioLogado);
   }
 
   return false;
-}
-
-function usuarioPodeGerenciarEntregas() {
-  return obterPerfilUsuario() === "administrador";
 }
 
 // ================================
@@ -218,7 +214,9 @@ function renderizarEntregas() {
   }
 
   filtradas.forEach(entrega => {
-    const podeGerenciar = usuarioPodeGerenciarEntregas();
+    const podeAlterarStatus = podeAlterarStatusEntrega(entrega);
+    const podeEditar = podeEditarEntrega(entrega);
+    const podeExcluir = podeExcluirEntrega();
     const card = document.createElement("div");
     card.className = "card";
 
@@ -246,13 +244,13 @@ function renderizarEntregas() {
           </div>
 
           <div class="acoes">
-            ${podeGerenciar && entrega.status === "pendente" ? `<button class="btn-rota" onclick="marcarEmRota(${entrega.id})">Em rota</button>` : ""}
-            ${podeGerenciar && entrega.status !== "entregue" && entrega.status !== "cancelada" ? `<button class="btn-entregue" onclick="marcarEntregue(${entrega.id})">Entregue</button>` : ""}
-            ${podeGerenciar && entrega.status !== "cancelada" && entrega.status !== "entregue" ? `<button class="btn-cancelar" onclick="cancelarEntrega(${entrega.id})">Cancelar</button>` : ""}
-            ${podeGerenciar ? `<button class="btn-editar" onclick="editarEntrega(${entrega.id})">Editar</button>` : ""}
+            ${podeAlterarStatus && entrega.status === "pendente" ? `<button class="btn-rota" onclick="marcarEmRota(${entrega.id})">Em rota</button>` : ""}
+            ${podeAlterarStatus && entrega.status !== "entregue" && entrega.status !== "cancelada" ? `<button class="btn-entregue" onclick="marcarEntregue(${entrega.id})">Entregue</button>` : ""}
+            ${podeAlterarStatus && entrega.status !== "cancelada" && entrega.status !== "entregue" ? `<button class="btn-cancelar" onclick="cancelarEntrega(${entrega.id})">Cancelar</button>` : ""}
+            ${podeEditar ? `<button class="btn-editar" onclick="editarEntrega(${entrega.id})">Editar</button>` : ""}
             <button class="btn-historico" onclick="verHistorico(${entrega.id})">Ver histórico</button>
             ${entrega.status === "entregue" && entrega.comprovante ? `<button class="btn-comprovante" onclick="verComprovante(${entrega.id})">Ver comprovante</button>` : ""}
-            ${podeGerenciar ? `<button class="btn-excluir" onclick="excluirEntrega(${entrega.id})">Excluir</button>` : ""}
+            ${podeExcluir ? `<button class="btn-excluir" onclick="excluirEntrega(${entrega.id})">Excluir</button>` : ""}
           </div>
         </div>
       </div>
@@ -270,6 +268,10 @@ function atualizarStatusEntrega(id, status) {
   entregas = carregarEntregas();
   const entrega = entregas.find(e => e.id === id);
   if (!entrega) return;
+  if (!podeAlterarStatusEntrega(entrega)) {
+    alertarSemPermissao();
+    return;
+  }
 
   entrega.status = status;
   adicionarHistorico(entrega, `Status alterado para ${nomeStatus(status)}`);
@@ -292,11 +294,29 @@ function marcarEntregue(id) {
 }
 
 function cancelarEntrega(id) {
-  if (!confirm("Deseja CANCELAR esta entrega?")) return;
-  atualizarStatusEntrega(id, "cancelada");
+  const entrega = carregarEntregas().find(e => e.id === id);
+  if (!entrega) return;
+  if (!podeAlterarStatusEntrega(entrega)) {
+    alertarSemPermissao();
+    return;
+  }
+
+  const modal = document.getElementById("modalCancelamento");
+  const inputId = document.getElementById("entregaCancelamentoId");
+  const form = document.getElementById("formCancelamento");
+  if (!modal || !inputId || !form) return;
+
+  form.reset();
+  inputId.value = id;
+  modal.classList.add("ativo");
 }
 
 function excluirEntrega(id) {
+  if (!podeExcluirEntrega()) {
+    alertarSemPermissao();
+    return;
+  }
+
   if (!confirm("Deseja excluir esta entrega? Essa ação não pode ser desfeita.")) return;
 
   entregas = carregarEntregas().filter(e => e.id !== id);
@@ -308,6 +328,10 @@ function editarEntrega(id) {
   entregas = carregarEntregas();
   const entrega = entregas.find(e => e.id === id);
   if (!entrega) return;
+  if (!podeEditarEntrega(entrega)) {
+    alertarSemPermissao();
+    return;
+  }
 
   const cliente = prompt("Cliente ou destino:", entrega.cliente);
   if (cliente === null) return;
@@ -380,8 +404,10 @@ function verComprovante(id) {
 
   conteudo.innerHTML = `
     <div class="comprovante-view">
-      <img src="${entrega.comprovante.imagem}" alt="Comprovante da entrega">
+      ${entrega.comprovante.imagem ? `<img src="${entrega.comprovante.imagem}" alt="Comprovante da entrega">` : `<p><strong>Foto:</strong> Não enviada.</p>`}
       <p><strong>Observação:</strong> ${entrega.comprovante.observacao || "-"}</p>
+      <p><strong>Recebedor:</strong> ${entrega.comprovante.nomeRecebedor || "-"}</p>
+      ${entrega.comprovante.assinatura ? `<p><strong>Assinatura digital:</strong></p><img class="assinatura-img" src="${entrega.comprovante.assinatura}" alt="Assinatura digital">` : `<p><strong>Assinatura digital:</strong> Não registrada.</p>`}
       <p><strong>Data/hora:</strong> ${entrega.comprovante.dataHora || "-"}</p>
       <p><strong>Usuário:</strong> ${entrega.comprovante.usuario || "Usuário não identificado"}</p>
     </div>
@@ -395,6 +421,50 @@ function fecharComprovante() {
   if (modal) modal.classList.remove("ativo");
 }
 
+function fecharModalCancelamento() {
+  const modal = document.getElementById("modalCancelamento");
+  const form = document.getElementById("formCancelamento");
+
+  if (form) form.reset();
+  if (modal) modal.classList.remove("ativo");
+}
+
+function confirmarCancelamento(event) {
+  event.preventDefault();
+
+  const id = Number(document.getElementById("entregaCancelamentoId").value);
+  const motivo = document.getElementById("motivoCancelamento").value.trim();
+
+  if (!motivo) {
+    alert("Informe uma justificativa para cancelar a entrega.");
+    return;
+  }
+
+  entregas = carregarEntregas();
+  const entrega = entregas.find(e => e.id === id);
+  if (!entrega) return;
+  if (!podeAlterarStatusEntrega(entrega)) {
+    alertarSemPermissao();
+    return;
+  }
+
+  entrega.status = "cancelada";
+  entrega.cancelamento = {
+    motivo,
+    dataHora: new Date().toLocaleString("pt-BR"),
+    usuario: obterNomeUsuarioLogado()
+  };
+  adicionarHistorico(entrega, `Entrega cancelada. Motivo: ${motivo}`);
+  salvarEntregas();
+  window.registrarNotificacoesEntrega?.(
+    "status",
+    `Entrega de ${entrega.cliente} cancelada. Motivo: ${motivo}.`,
+    entrega
+  );
+  fecharModalCancelamento();
+  renderizarEntregas();
+}
+
 function irParaNovaEntrega() {
   window.location.href = "nova-entrega.html";
 }
@@ -406,7 +476,9 @@ document.addEventListener("DOMContentLoaded", renderizarEntregas);
 document.addEventListener("DOMContentLoaded", function () {
   const campoPesquisa = document.getElementById("campoPesquisa");
   const filtroStatus = document.getElementById("filtroStatus");
+  const formCancelamento = document.getElementById("formCancelamento");
 
   if (campoPesquisa) campoPesquisa.addEventListener("input", renderizarEntregas);
   if (filtroStatus) filtroStatus.addEventListener("change", renderizarEntregas);
+  if (formCancelamento) formCancelamento.addEventListener("submit", confirmarCancelamento);
 });

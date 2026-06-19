@@ -118,6 +118,13 @@ function usarLocalizacaoAtual() {
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
+  if (!podeCriarEntrega()) {
+    alertarSemPermissao();
+    return;
+  }
+
+  const usuarioLogado = obterUsuarioLogado();
+  const perfilUsuario = obterPerfilUsuario(usuarioLogado);
   const loja = document.getElementById("loja").value;
   const vendedor = document.getElementById("vendedor").value.trim();
   const destino = document.getElementById("destino").value.trim();
@@ -160,6 +167,9 @@ form.addEventListener("submit", function (event) {
     formaPagamento,
     obs,
     status: "pendente",
+    criadoPorUsuario: usuarioLogado?.usuario || usuarioLogado?.nome || "",
+    criadoPorPerfil: perfilUsuario,
+    dataCriacao: agora.toISOString(),
     data: agora.toLocaleDateString("pt-BR"),
     hora: agora.toLocaleTimeString("pt-BR", {
       hour: "2-digit",

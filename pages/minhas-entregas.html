@@ -34,7 +34,12 @@
 
         <div class="campo">
           <label for="fotoComprovante">Foto do comprovante</label>
-          <input id="fotoComprovante" type="file" accept="image/*" required>
+          <input id="fotoComprovante" type="file" accept="image/*">
+        </div>
+
+        <div class="campo">
+          <label for="nomeRecebedor">Nome de quem recebeu</label>
+          <input id="nomeRecebedor" type="text" placeholder="Nome completo do recebedor" required>
         </div>
 
         <div class="campo">
@@ -42,8 +47,32 @@
           <textarea id="observacaoComprovante" placeholder="Ex: entregue ao cliente, portaria, familiar"></textarea>
         </div>
 
+        <div class="campo">
+          <label for="assinaturaCanvas">Assinatura digital</label>
+          <canvas id="assinaturaCanvas" width="420" height="180"></canvas>
+          <button type="button" class="btn-limpar-assinatura" id="btnLimparAssinatura">Limpar assinatura</button>
+        </div>
+
         <button type="submit" class="btn-confirmar">Confirmar entrega</button>
         <button type="button" class="btn-fechar" onclick="fecharModalComprovante()">Cancelar</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-comprovante" id="modalCancelamento">
+    <div class="modal-conteudo">
+      <h2>Cancelar entrega</h2>
+
+      <form id="formCancelamento">
+        <input type="hidden" id="entregaCancelamentoId">
+
+        <div class="campo">
+          <label for="motivoCancelamento">Justificativa do cancelamento</label>
+          <textarea id="motivoCancelamento" placeholder="Informe o motivo do cancelamento" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-cancelar-modal">Confirmar cancelamento</button>
+        <button type="button" class="btn-fechar" onclick="fecharModalCancelamento()">Voltar</button>
       </form>
     </div>
   </div>

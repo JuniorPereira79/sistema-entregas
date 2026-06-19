@@ -141,6 +141,10 @@ function renderizarTransferencias() {
 
 function transferirEntrega(event) {
   event.preventDefault();
+  if (!podeTransferirEntrega()) {
+    alertarSemPermissao();
+    return;
+  }
 
   const entrega = entregas.find(item => String(item.id) === entregaSelect.value);
   const novoOption = novoEntregadorSelect.options[novoEntregadorSelect.selectedIndex];
