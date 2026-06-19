@@ -1,0 +1,253 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f2f2f2;
+  padding-bottom: 32px;
+}
+
+.top-bar {
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  position: relative;
+}
+
+.top-bar h1 {
+  font-size: 22px;
+}
+
+.logout-btn {
+  background: #ef4444;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px 12px;
+  position: absolute;
+  right: 16px;
+}
+
+.app-container {
+  margin: 0 auto;
+  max-width: 1120px;
+  padding: 16px;
+}
+
+.filtros,
+.resumo-card,
+.grafico-card,
+.tabela-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.filtros {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.campo label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.campo input,
+.campo select {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+}
+
+.btn-limpar,
+.btn-exportar {
+  align-self: end;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 11px;
+}
+
+.btn-limpar {
+  background: #6b7280;
+}
+
+.btn-exportar {
+  background: #16a34a;
+}
+
+.resumo-card h2,
+.grafico-card h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.resumo-card p {
+  color: #555;
+}
+
+.cards-produtividade {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  margin-bottom: 16px;
+}
+
+.prod-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  padding: 16px;
+}
+
+.prod-card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.prod-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.prod-item {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.prod-item strong {
+  color: #2563eb;
+  display: block;
+  font-size: 20px;
+}
+
+.prod-item span {
+  color: #555;
+  font-size: 12px;
+}
+
+.grafico-area {
+  height: 320px;
+  position: relative;
+}
+
+.tabela-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  min-width: 920px;
+  width: 100%;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 13px;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.vazio {
+  color: #666;
+  padding: 24px;
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .filtros {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .top-bar {
+    height: auto;
+    padding: 12px 8px 56px;
+  }
+
+  .top-bar h1 {
+    font-size: 18px;
+  }
+
+  .logout-btn {
+    bottom: 12px;
+    padding: 7px 9px;
+  }
+
+  .filtros,
+  .prod-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grafico-area {
+    height: 260px;
+  }
+
+  .tabela-wrapper {
+    overflow-x: visible;
+  }
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  table {
+    min-width: 0;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    padding: 10px;
+  }
+
+  td {
+    border-bottom: none;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    padding: 7px 0;
+  }
+
+  td:nth-child(1)::before { content: "Entregador"; font-weight: 700; }
+  td:nth-child(2)::before { content: "Total"; font-weight: 700; }
+  td:nth-child(3)::before { content: "Pendentes"; font-weight: 700; }
+  td:nth-child(4)::before { content: "Em rota"; font-weight: 700; }
+  td:nth-child(5)::before { content: "Entregues"; font-weight: 700; }
+  td:nth-child(6)::before { content: "Canceladas"; font-weight: 700; }
+  td:nth-child(7)::before { content: "Sucesso"; font-weight: 700; }
+  td:nth-child(8)::before { content: "Cancelamento"; font-weight: 700; }
+}

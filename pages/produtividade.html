@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produtividade | App Entregas</title>
+  <meta name="theme-color" content="#3b82f6">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="stylesheet" href="../css/produtividade.css">
+  <link rel="stylesheet" href="../css/menu.css">
+</head>
+<body>
+  <header class="top-bar">
+    <h1>PRODUTIVIDADE</h1>
+    <button class="logout-btn" onclick="logout()">Sair</button>
+  </header>
+
+  <main class="app-container">
+    <section class="filtros">
+      <div class="campo">
+        <label for="dataInicial">Data inicial</label>
+        <input id="dataInicial" type="date">
+      </div>
+
+      <div class="campo">
+        <label for="dataFinal">Data final</label>
+        <input id="dataFinal" type="date">
+      </div>
+
+      <div class="campo">
+        <label for="filtroEntregador">Entregador</label>
+        <select id="filtroEntregador">
+          <option value="todos">Todos</option>
+        </select>
+      </div>
+
+      <button class="btn-limpar" id="btnLimparFiltros">Limpar filtros</button>
+      <button class="btn-exportar" id="btnExportarCsv">Exportar CSV</button>
+    </section>
+
+    <section class="resumo-card">
+      <h2>Resumo operacional</h2>
+      <p id="mensagemVazia">Carregando indicadores de produtividade...</p>
+    </section>
+
+    <section class="cards-produtividade" id="cardsProdutividade"></section>
+
+    <section class="grafico-card">
+      <h2>Entregues x Canceladas por entregador</h2>
+      <div class="grafico-area">
+        <canvas id="graficoProdutividade"></canvas>
+      </div>
+    </section>
+
+    <section class="tabela-card">
+      <div class="tabela-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Entregador</th>
+              <th>Total</th>
+              <th>Pendentes</th>
+              <th>Em rota</th>
+              <th>Entregues</th>
+              <th>Canceladas</th>
+              <th>Taxa de sucesso</th>
+              <th>Taxa de cancelamento</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabelaProdutividade"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/menu.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/produtividade.js"></script>
+  <script src="../js/pwa.js"></script>
+</body>
+</html>

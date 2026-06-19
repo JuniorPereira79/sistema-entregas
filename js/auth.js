@@ -17,6 +17,7 @@ const ACESSOS_POR_PERFIL = {
     "entregadores.html",
     "transferencias.html",
     "relatorios.html",
+    "produtividade.html",
     "mapa.html",
     "rotas.html",
     "notificacoes.html",

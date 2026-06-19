@@ -1,4 +1,4 @@
-const CACHE_NAME = "sistema-entregas-v10";
+const CACHE_NAME = "sistema-entregas-v11";
 
 const FILES_TO_CACHE = [
   "./",
@@ -12,6 +12,7 @@ const FILES_TO_CACHE = [
   "./pages/entregadores.html",
   "./pages/transferencias.html",
   "./pages/relatorios.html",
+  "./pages/produtividade.html",
   "./pages/minhas-entregas.html",
   "./pages/mapa.html",
   "./pages/rotas.html",
@@ -23,6 +24,7 @@ const FILES_TO_CACHE = [
   "./css/entregadores.css",
   "./css/transferencias.css",
   "./css/relatorios.css",
+  "./css/produtividade.css",
   "./css/minhas-entregas.css",
   "./css/mapa.css",
   "./css/rotas.css",
@@ -37,6 +39,7 @@ const FILES_TO_CACHE = [
   "./js/entregadores.js",
   "./js/transferencias.js",
   "./js/relatorios.js",
+  "./js/produtividade.js",
   "./js/minhas-entregas.js",
   "./js/mapa.js",
   "./js/rotas.js",

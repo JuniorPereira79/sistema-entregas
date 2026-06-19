@@ -6,6 +6,7 @@
     { texto: "Entregadores", url: "entregadores.html" },
     { texto: "Transferências", url: "transferencias.html" },
     { texto: "Relatórios", url: "relatorios.html" },
+    { texto: "Produtividade", url: "produtividade.html" },
     { texto: "Mapa", url: "mapa.html" },
     { texto: "Rotas", url: "rotas.html" },
     { texto: "Minhas Entregas", url: "minhas-entregas.html" },
